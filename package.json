@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client-install": "npm install --prefix frontend",
-    "build": "npm run build --prefix frontend",
+    "client-install": "npm install --prefix reactjs",
+    "build": "npm run build --prefix reactjs",
     "server": "cross-env NODE_ENV=development nodemon src/index.js",
     "start": "cross-env NODE_ENV=production node src/index.js",
-    "client": "npm start --prefix frontend",
+    "client": "npm start --prefix reactjs",
     "dev": "concurrently \"npm run server\" \"npm run client\" ",
     "heroku-postbuild": "npm run client-install && npm run build"
   },
