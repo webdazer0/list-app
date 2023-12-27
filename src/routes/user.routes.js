@@ -1,21 +1,14 @@
 const { Router } = require("express");
 const router = Router();
-const User = require("../models/user.model");
 
-router.get("/", (req, res) => {
-  User.find()
-    .then((users) => res.json(users))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
+const userController = require("../controllers/user.controller");
 
-router.post("/add", (req, res) => {
-  const { username } = req.body;
-  const newUser = new User({ username });
+router.get("/", userController.getAll);
+router.post("/add", userController.create);
 
-  newUser
-    .save()
-    .then(() => res.json("User added"))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
+router
+  .route("/:id")
+  .get(userController.getById)
+  .delete(userController.deleteById);
 
 module.exports = router;
