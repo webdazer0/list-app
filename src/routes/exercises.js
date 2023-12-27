@@ -1,9 +1,9 @@
 const { Router } = require("express");
 const router = Router();
-const Excercises = require("../models/Excercises");
+const Excercise = require("../models/excercise.model");
 
 router.get("/", (req, res) => {
-  Excercises.find()
+  Excercise.find()
     .then((excercises) => res.json(excercises))
     .catch((err) => res.status(400).json("Error: " + err));
 });
@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 router.post("/add", (req, res) => {
   const { username, description } = req.body;
   const duration = Number(req.body.duration);
-  const newExcercise = new Excercises({
+  const newExcercise = new Excercise({
     username,
     description,
     duration,
@@ -24,19 +24,19 @@ router.post("/add", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  Excercises.findById(req.params.id)
+  Excercise.findById(req.params.id)
     .then((excercise) => res.json(excercise))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.delete("/:id", (req, res) => {
-  Excercises.findByIdAndDelete(req.params.id)
+  Excercise.findByIdAndDelete(req.params.id)
     .then(() => res.json("Excercise Deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.put("/update/:id", (req, res) => {
-  Excercises.findById(req.params.id)
+  Excercise.findById(req.params.id)
     .then((excercise) => {
       excercise.username = req.body.username;
       excercise.description = req.body.description;
