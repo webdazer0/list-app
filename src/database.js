@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // this options not needed anymore
 // const dbOptions = {
@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 // };
 
 mongoose
-  .set('strictQuery', false)
+  .set("strictQuery", false)
   .connect(process.env.MONGODB_URI)
-  .then((db) => console.log('Database connected!!!'))
+  .then((db) => console.log("Database connected!!!"))
   .catch((err) => console.log(err));
