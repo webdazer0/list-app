@@ -57,7 +57,7 @@ class EditTask extends Component {
     };
 
     axios
-      .put(`${Global.url}/api/tasks/update/${this.props.match.params.id}`, task)
+      .put(`${Global.url}/api/tasks/${this.props.match.params.id}`, task)
       .then((res) => {
         console.log(res.data);
         return (window.location = "/");
