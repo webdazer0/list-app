@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-})
-    .then(db => console.log('Database connected!!!'))
-    .catch(err => console.log(err))
+// this options not needed anymore
+// const dbOptions = {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// };
 
+mongoose
+  .set('strictQuery', false)
+  .connect(process.env.MONGODB_URI)
+  .then((db) => console.log('Database connected!!!'))
+  .catch((err) => console.log(err));
