@@ -1,50 +1,50 @@
 const { Router } = require("express");
 const router = Router();
-const Excercise = require("../models/excercise.model");
+const Task = require("../models/task.model");
 
 router.get("/", (req, res) => {
-  Excercise.find()
-    .then((excercises) => res.json(excercises))
+  Task.find()
+    .then((tasks) => res.json(tasks))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.post("/add", (req, res) => {
   const { username, description } = req.body;
   const duration = Number(req.body.duration);
-  const newExcercise = new Excercise({
+  const newTask = new Task({
     username,
     description,
     duration,
   });
 
-  newExcercise
+  newTask
     .save()
-    .then(() => res.json("Excercise added!"))
+    .then(() => res.json("Task added!"))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.get("/:id", (req, res) => {
-  Excercise.findById(req.params.id)
-    .then((excercise) => res.json(excercise))
+  Task.findById(req.params.id)
+    .then((task) => res.json(task))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.delete("/:id", (req, res) => {
-  Excercise.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Excercise Deleted!"))
+  Task.findByIdAndDelete(req.params.id)
+    .then(() => res.json("Task Deleted!"))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.put("/update/:id", (req, res) => {
-  Excercise.findById(req.params.id)
-    .then((excercise) => {
-      excercise.username = req.body.username;
-      excercise.description = req.body.description;
-      excercise.duration = req.body.duration;
+  Task.findById(req.params.id)
+    .then((task) => {
+      task.username = req.body.username;
+      task.description = req.body.description;
+      task.duration = req.body.duration;
 
-      excercise
+      task
         .save()
-        .then(() => res.json("Excercise Updated!"))
+        .then(() => res.json("Task Updated!"))
         .catch((err) => res.status(400).json("Error: " + err));
     })
     .catch((err) => res.status(400).json("Error: " + err));
