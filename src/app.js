@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use("/api/users", require("./routes/users"));
-app.use("/api/exercises", require("./routes/exercises"));
+app.use("/api/users", require("./routes/user.routes"));
+app.use("/api/exercises", require("./routes/exercise.routes"));
 
 module.exports = app;
