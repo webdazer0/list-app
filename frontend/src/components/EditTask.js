@@ -12,7 +12,7 @@ class EditTask extends Component {
 
   componentDidMount() {
     axios
-      .get(`${Global.url}/api/tasks/${this.props.match.params.id}`)
+      .get(`${Global.url}/tasks/${this.props.match.params.id}`)
       .then((res) => {
         const { username, description, duration } = res.data;
         this.setState({
@@ -24,7 +24,7 @@ class EditTask extends Component {
       })
       .catch((err) => "Errore!!!");
 
-    axios.get(`${Global.url}/api/users`).then((res) => {
+    axios.get(`${Global.url}/users`).then((res) => {
       if (res.data.length > 0) {
         this.setState({
           users: res.data.map((user) => user.username),
@@ -57,7 +57,7 @@ class EditTask extends Component {
     };
 
     axios
-      .put(`${Global.url}/api/tasks/${this.props.match.params.id}`, task)
+      .put(`${Global.url}/tasks/${this.props.match.params.id}`, task)
       .then((res) => {
         console.log(res.data);
         return (window.location = "/");

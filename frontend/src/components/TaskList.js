@@ -37,11 +37,11 @@ class TaskList extends Component {
   };
 
   componentDidMount() {
-    // const res = await axios.get(`/api/tasks`);
+    // const res = await axios.get(`/tasks`);
     // this.setState({ data: res.data})
 
     axios
-      .get(`${Global.url}/api/tasks`)
+      .get(`${Global.url}/tasks`)
       .then((res) => {
         this.setState({ data: res.data });
         return console.log(this.state);
@@ -51,7 +51,7 @@ class TaskList extends Component {
 
   deleteTask = (id) => {
     axios
-      .delete(`${Global.url}/api/tasks/${id}`)
+      .delete(`${Global.url}/tasks/${id}`)
       .then((res) => {
         console.log(res.data);
         return (window.location = "/");

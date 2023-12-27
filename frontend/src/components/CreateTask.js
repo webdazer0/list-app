@@ -15,7 +15,7 @@ class CreateTask extends Component {
     //     users: ['test user', 'user 2'],
     //     username: 'test user'
     // });
-    axios.get(`${Global.url}/api/users`).then((res) => {
+    axios.get(`${Global.url}/users`).then((res) => {
       if (res.data.length > 0) {
         this.setState({
           users: res.data.map((user) => user.username),
@@ -50,7 +50,7 @@ class CreateTask extends Component {
 
     console.log(this.state);
     axios
-      .post(`${Global.url}/api/tasks/add`, task)
+      .post(`${Global.url}/tasks/add`, task)
       .then((res) => {
         console.log(res.data);
         return (window.location = "/");
