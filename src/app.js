@@ -4,6 +4,7 @@ const cors = require("cors");
 
 // Initialization
 const app = express();
+app.disable("x-powered-by");
 require("./database");
 
 // Settings
