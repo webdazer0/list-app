@@ -22,7 +22,7 @@ class EditTask extends Component {
         });
         return console.log(this.state);
       })
-      .catch((err) => "Errore!!!");
+      .catch((err) => console.log(err.message));
 
     axios.get(`${Global.url}/users`).then((res) => {
       if (res.data.length > 0) {
@@ -33,15 +33,19 @@ class EditTask extends Component {
     });
   }
 
-  CambioUser = (e) => {
-    const { name, value } = e.target;
+  goToHomePage() {
+    this.props.history.replace("/");
+  }
+
+  onSelectUser = (event) => {
+    const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
   };
 
-  Cambio = (e) => {
-    const { name, value } = e.target;
+  onUpdateTaskDescription = (event) => {
+    const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
@@ -56,27 +60,30 @@ class EditTask extends Component {
       duration: this.state.duration,
     };
 
-    axios
-      .put(`${Global.url}/tasks/${this.props.match.params.id}`, task)
-      .then((res) => {
-        console.log(res.data);
-        return (window.location = "/");
-      })
-      .catch((err) => console.log("Something went wrong!"));
+    this.onUpdateTask(task);
   };
+
+  onUpdateTask(task) {
+    const { id } = this.props.match.params;
+    axios
+      .put(`${Global.url}/tasks/${id}`, task)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err.message))
+      .finally(() => this.goToHomePage());
+  }
 
   render() {
     return (
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <div className="card my-4">
-            <div className="card-header">EDIT Exercice</div>
+            <div className="card-header">EDIT Task</div>
             <div className="card-body">
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <select
                     name="username"
-                    onChange={this.CambioUser}
+                    onChange={this.onSelectUser}
                     value={this.state.username}
                     className="form-control"
                   >
@@ -93,7 +100,7 @@ class EditTask extends Component {
                   <textarea
                     type="text"
                     name="description"
-                    onChange={this.Cambio}
+                    onChange={this.onUpdateTaskDescription}
                     value={this.state.description}
                     className="form-control"
                   ></textarea>
@@ -102,7 +109,7 @@ class EditTask extends Component {
                   <input
                     type="number"
                     name="duration"
-                    onChange={this.Cambio}
+                    onChange={this.onUpdateTaskDescription}
                     value={this.state.duration}
                     className="form-control"
                   />

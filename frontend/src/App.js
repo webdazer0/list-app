@@ -5,15 +5,14 @@ import "./assets/css/App.css";
 import CreateTask from "./components/CreateTask";
 import CreateUser from "./components/CreateUser";
 import EditTask from "./components/EditTask";
-import Navigation from "./components/Navigation";
+import NavBar from "./components/Navbar";
 import TaskList from "./components/TaskList";
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Navigation />
-
+        <NavBar />
         <div className="container">
           <Route exact path="/" component={TaskList} />
           <Route path="/edit/:id" component={EditTask} />

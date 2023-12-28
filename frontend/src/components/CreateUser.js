@@ -7,8 +7,8 @@ class CreateUser extends Component {
     username: "",
   };
 
-  CambioUsername = (e) => {
-    const { name, value } = e.target;
+  onChangeUsername = (event) => {
+    const { name, value } = event.target;
     this.setState({ [name]: value });
   };
 
@@ -20,8 +20,9 @@ class CreateUser extends Component {
     console.log(user);
     axios
       .post(`${Global.url}/users/add`, user)
-      .then((res) => console.log(res.data));
-    this.setState({ username: "" });
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err.message))
+      .finally(() => this.setState({ username: "" }));
   };
 
   render() {
@@ -37,7 +38,7 @@ class CreateUser extends Component {
                     type="text"
                     name="username"
                     value={this.state.username}
-                    onChange={this.CambioUsername}
+                    onChange={this.onChangeUsername}
                     className="form-control"
                   />
                 </div>

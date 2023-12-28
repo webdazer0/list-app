@@ -10,11 +10,11 @@ class CreateTask extends Component {
     users: [],
   };
 
+  goToHomePage() {
+    this.props.history.replace("/");
+  }
+
   componentDidMount() {
-    // this.setState({
-    //     users: ['test user', 'user 2'],
-    //     username: 'test user'
-    // });
     axios.get(`${Global.url}/users`).then((res) => {
       if (res.data.length > 0) {
         this.setState({
@@ -25,15 +25,15 @@ class CreateTask extends Component {
     });
   }
 
-  CambioUser = (e) => {
-    const { name, value } = e.target;
+  onSelectUser = (event) => {
+    const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
   };
 
-  Cambio = (e) => {
-    const { name, value } = e.target;
+  onUpdateField = (event) => {
+    const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
@@ -48,28 +48,29 @@ class CreateTask extends Component {
       duration: this.state.duration,
     };
 
-    console.log(this.state);
+    this.onSaveTask(task);
+  };
+
+  onSaveTask(task) {
     axios
       .post(`${Global.url}/tasks/add`, task)
-      .then((res) => {
-        console.log(res.data);
-        return (window.location = "/");
-      })
-      .catch((err) => console.log("Something went wrong!"));
-  };
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err.message))
+      .finally(() => this.goToHomePage());
+  }
 
   render() {
     return (
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <div className="card my-4">
-            <div className="card-header">Create Exercice</div>
+            <div className="card-header">Create Task</div>
             <div className="card-body">
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <select
                     name="username"
-                    onChange={this.CambioUser}
+                    onChange={this.onSelectUser}
                     className="form-control"
                   >
                     {this.state.users.map((user) => {
@@ -85,7 +86,7 @@ class CreateTask extends Component {
                   <textarea
                     type="text"
                     name="description"
-                    onChange={this.Cambio}
+                    onChange={this.onUpdateField}
                     className="form-control"
                   ></textarea>
                 </div>
@@ -93,7 +94,7 @@ class CreateTask extends Component {
                   <input
                     type="number"
                     name="duration"
-                    onChange={this.Cambio}
+                    onChange={this.onUpdateField}
                     className="form-control"
                   />
                 </div>

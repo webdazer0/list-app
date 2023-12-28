@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-class Navigation extends Component {
+class NavBar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            Exercices
+            Tasks App
           </Link>
           <button
             className="navbar-toggler"
@@ -40,4 +40,4 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation;
+export default NavBar;
