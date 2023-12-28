@@ -1,6 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const userRoutes = require("./routes/user.routes");
+const taskRoutes = require("./routes/task.routes");
 
 // Initialization
 const app = express();
@@ -17,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use("/api/users", require("./routes/user.routes"));
-app.use("/api/tasks", require("./routes/task.routes"));
+app.use("/api/users", userRoutes);
+app.use("/api/tasks", taskRoutes);
 
 module.exports = app;
