@@ -1,22 +1,22 @@
-import axios from "axios";
-import GLOBAL from "../Global";
+import axios from 'axios';
+import { API_URI } from '../config';
 
 export const instance = axios.create({
-  baseURL: GLOBAL.url,
+  baseURL: API_URI,
 });
 
 export const apiService = {
   // USERS
   getUsers: () => {
     return instance
-      .get("/users")
+      .get('/users')
       .then((res) => res.data)
       .catch(errorHandler);
   },
 
   createUser: (user) => {
     return instance
-      .post("/users/add", user)
+      .post('/users/add', user)
       .then((res) => res.data)
       .catch(errorHandler);
   },
@@ -24,14 +24,14 @@ export const apiService = {
   // TASKS
   getTasks: () => {
     return instance
-      .get("/tasks")
+      .get('/tasks')
       .then((res) => res.data)
       .catch(errorHandler);
   },
 
   createTask: (task) => {
     return instance
-      .post("/tasks/add", task)
+      .post('/tasks/add', task)
       .then((res) => res.data)
       .catch(errorHandler);
   },
@@ -59,8 +59,8 @@ export const apiService = {
 };
 
 const errorHandler = (error) => {
-  if (typeof Error === "NetWorkError") {
-    throw new Error("No Internet Connection ");
-  }
+  // if (typeof Error === "NetWorkError") {
+  //   throw new Error("No Internet Connection ");
+  // }
   throw error;
 };
