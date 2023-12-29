@@ -1,0 +1,35 @@
+@API = http://localhost:4500/api
+
+### 🟢GET USERS
+GET {{API}}/users
+content-type: application/json
+
+### 🔵CREATE USER
+POST {{API}}/users/add
+content-type: application/json
+
+{
+    "username": "MiguelTest"
+}
+
+### 🟢GET USER BY ID
+GET {{API}}/users/5e6148abcb1eb7001ed55892
+content-type: application/json
+
+### 🟢GET TASKS
+GET {{API}}/tasks
+content-type: application/json
+
+### 🔵CREATE TASK
+POST {{API}}/tasks/add
+content-type: application/json
+
+{
+    "username": "Miguel",
+    "description": "Desc. Test",
+    "duration": 2020
+}
+
+### 🟢GET TASK BY ID
+GET {{API}}/tasks/658cb744bd7bd77e81e49f32
+content-type: application/json
