@@ -1,6 +1,5 @@
-import axios from "axios";
 import React, { Component } from "react";
-import Global from "../Global";
+import { apiService } from "../services/api.service";
 
 class EditTask extends Component {
   state = {
@@ -11,23 +10,23 @@ class EditTask extends Component {
   };
 
   componentDidMount() {
-    axios
-      .get(`${Global.url}/tasks/${this.props.match.params.id}`)
-      .then((res) => {
-        const { username, description, duration } = res.data;
+    const { id } = this.props.match.params;
+    apiService
+      .getTaskById(id)
+      .then((response) => {
+        const { username, description, duration } = response;
         this.setState({
           username,
           description,
           duration,
         });
-        return console.log(this.state);
       })
       .catch((err) => console.log(err.message));
 
-    axios.get(`${Global.url}/users`).then((res) => {
-      if (res.data.length > 0) {
+    apiService.getUsers().then((response) => {
+      if (response.length > 0) {
         this.setState({
-          users: res.data.map((user) => user.username),
+          users: response.map((user) => user.username),
         });
       }
     });
@@ -65,9 +64,10 @@ class EditTask extends Component {
 
   onUpdateTask(task) {
     const { id } = this.props.match.params;
-    axios
-      .put(`${Global.url}/tasks/${id}`, task)
-      .then((res) => console.log(res.data))
+
+    apiService
+      .updateTaskById(id, task)
+      .then((response) => console.log(response))
       .catch((err) => console.log(err.message))
       .finally(() => this.goToHomePage());
   }

@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Global from "../Global";
+import { apiService } from "../services/api.service";
 
 class TaskList extends Component {
   state = {
@@ -9,12 +8,8 @@ class TaskList extends Component {
   };
 
   getAllTasks() {
-    axios
-      .get(`${Global.url}/tasks`)
-      .then((res) => {
-        this.setState({ data: res.data });
-        return console.log(this.state);
-      })
+    apiService.getTasks()
+      .then((response) => this.setState({ data: response }))
       .catch((err) => console.log(err.message));
   }
 
@@ -23,9 +18,8 @@ class TaskList extends Component {
   }
 
   deleteTask = (id) => {
-    axios
-      .delete(`${Global.url}/tasks/${id}`)
-      .then((res) => console.log(res.data))
+    apiService.deleteTaskById(id)
+      .then((response) => console.log(response))
       .catch((err) => console.log(err.message))
       .finally(() => this.getAllTasks());
   };

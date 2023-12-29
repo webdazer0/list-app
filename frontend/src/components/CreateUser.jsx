@@ -1,6 +1,5 @@
-import axios from "axios";
 import React, { Component } from "react";
-import Global from "../Global";
+import { apiService } from "../services/api.service";
 
 class CreateUser extends Component {
   state = {
@@ -18,9 +17,9 @@ class CreateUser extends Component {
       username: this.state.username,
     };
     console.log(user);
-    axios
-      .post(`${Global.url}/users/add`, user)
-      .then((res) => console.log(res.data))
+
+    apiService.createUser(user)
+      .then((response) => console.log(response))
       .catch((err) => console.log(err.message))
       .finally(() => this.setState({ username: "" }));
   };

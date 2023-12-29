@@ -1,6 +1,5 @@
-import axios from "axios";
 import React, { Component } from "react";
-import Global from "../Global";
+import { apiService } from "../services/api.service";
 
 class CreateTask extends Component {
   state = {
@@ -15,11 +14,11 @@ class CreateTask extends Component {
   }
 
   componentDidMount() {
-    axios.get(`${Global.url}/users`).then((res) => {
-      if (res.data.length > 0) {
+    apiService.getUsers().then((res) => {
+      if (res.length > 0) {
         this.setState({
-          users: res.data.map((user) => user.username),
-          username: res.data[0].username,
+          users: res.map((user) => user.username),
+          username: res[0].username,
         });
       }
     });
@@ -41,7 +40,6 @@ class CreateTask extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-
     const task = {
       username: this.state.username,
       description: this.state.description,
@@ -52,8 +50,7 @@ class CreateTask extends Component {
   };
 
   onSaveTask(task) {
-    axios
-      .post(`${Global.url}/tasks/add`, task)
+    apiService.createTask(task)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err.message))
       .finally(() => this.goToHomePage());
