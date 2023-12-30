@@ -16,7 +16,7 @@ export default function CreateTask() {
     apiService.getUsers().then((data) => {
       if (data.length > 0) {
         setUsers(data.map((user) => user.username));
-        setUsername(data[0]);
+        setUsername(data[0].username);
       }
     });
   }, []);
