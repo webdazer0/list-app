@@ -1,127 +1,129 @@
-import React, { Component } from "react";
-import { apiService } from "../services/api.service";
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { apiService } from '../services/api.service';
 
-class EditTask extends Component {
-  state = {
-    username: "",
-    description: "",
-    duration: 0,
-    users: [],
-  };
+export default function EditTask() {
+  const [users, setUsers] = useState([]);
+  const [username, setUsername] = useState('');
+  const [description, setDescription] = useState('');
+  const [duration, setDuration] = useState(0);
 
-  componentDidMount() {
-    const { id } = this.props.match.params;
-    apiService
-      .getTaskById(id)
-      .then((response) => {
-        const { username, description, duration } = response;
-        this.setState({
-          username,
-          description,
-          duration,
-        });
-      })
-      .catch((err) => console.log(err.message));
+  const history = useHistory();
+  const params = useParams();
+  const { id } = params;
 
-    apiService.getUsers().then((response) => {
-      if (response.length > 0) {
-        this.setState({
-          users: response.map((user) => user.username),
-        });
-      }
-    });
-  }
+  const goToHomePage = () => history.replace('/');
 
-  goToHomePage() {
-    this.props.history.replace("/");
-  }
+  const handleUsername = (event) => setUsername(event.target.value);
 
-  onSelectUser = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  };
+  const handleDescription = (event) => setDescription(event.target.value);
 
-  onUpdateTaskDescription = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  };
+  const handleDuration = (event) => setDuration(event.target.value);
 
-  onSubmit = (e) => {
-    e.preventDefault();
-
+  const onSubmit = (event) => {
+    event.preventDefault();
     const task = {
-      username: this.state.username,
-      description: this.state.description,
-      duration: this.state.duration,
+      username,
+      description,
+      duration,
     };
 
-    this.onUpdateTask(task);
+    onUpdateTask(task);
   };
 
-  onUpdateTask(task) {
-    const { id } = this.props.match.params;
-
+  const onUpdateTask = (task) => {
     apiService
       .updateTaskById(id, task)
       .then((response) => console.log(response))
       .catch((err) => console.log(err.message))
-      .finally(() => this.goToHomePage());
-  }
+      .finally(() => goToHomePage());
+  };
 
-  render() {
-    return (
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <div className="card my-4">
-            <div className="card-header">EDIT Task</div>
-            <div className="card-body">
-              <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <select
-                    name="username"
-                    onChange={this.onSelectUser}
-                    value={this.state.username}
-                    className="form-control"
-                  >
-                    {this.state.users.map((user) => {
-                      return (
-                        <option key={user} value={user}>
-                          {user}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <textarea
-                    type="text"
-                    name="description"
-                    onChange={this.onUpdateTaskDescription}
-                    value={this.state.description}
-                    className="form-control"
-                  ></textarea>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="number"
-                    name="duration"
-                    onChange={this.onUpdateTaskDescription}
-                    value={this.state.duration}
-                    className="form-control"
-                  />
-                </div>
-                <button className="btn btn-primary btn-block">Save</button>
-              </form>
-            </div>
+  useEffect(() => {
+    apiService
+      .getTaskById(id)
+      .then((response) => {
+        console.log(response);
+        setUsername(response.username);
+        setDescription(response.description);
+        setDuration(response.duration);
+      })
+      .catch((err) => console.log(err.message));
+
+    apiService.getUsers().then((response) => {
+      setUsers(response.map((user) => user.username));
+    });
+  }, [id]);
+
+  return (
+    <div className="row">
+      <div className="col-md-6 offset-md-3">
+        <div className="card my-4">
+          <div className="card-header">EDIT Task</div>
+          <div className="card-body">
+            <form onSubmit={onSubmit}>
+              <div className="form-group">
+                <select
+                  name="username"
+                  onChange={handleUsername}
+                  value={username}
+                  className="form-control"
+                >
+                  {users.map((user) => {
+                    return (
+                      <option key={user} value={user}>
+                        {user}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <InputTextAreaField
+                name="description"
+                type="text"
+                onChange={handleDescription}
+                value={description}
+                className="form-control"
+              />
+              <InputField
+                name="duration"
+                type="number"
+                onChange={handleDuration}
+                value={duration}
+              />
+              <button className="btn btn-success btn-block">Update</button>
+            </form>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default EditTask;
+const InputField = ({ value, onChange, name, type }) => {
+  return (
+    <div className="form-group">
+      <input
+        type={type}
+        name={name}
+        onChange={onChange}
+        value={value}
+        className="form-control"
+      />
+    </div>
+  );
+};
+
+const InputTextAreaField = ({ value, onChange, name, type }) => {
+  return (
+    <div className="form-group">
+      <textarea
+        type={type}
+        name={name}
+        onChange={onChange}
+        value={value}
+        className="form-control"
+      ></textarea>
+    </div>
+  );
+};

@@ -1,54 +1,48 @@
-import React, { Component } from "react";
-import { apiService } from "../services/api.service";
+import React, { useState } from 'react';
+import { apiService } from '../services/api.service';
 
-class CreateUser extends Component {
-  state = {
-    username: "",
+export default function CreateUser() {
+  const [username, setUsername] = useState('');
+
+  const onChangeUsername = (event) => {
+    const { value } = event.target;
+    setUsername(value);
   };
 
-  onChangeUsername = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
+  const resetForm = () => setUsername('');
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    const user = {
-      username: this.state.username,
-    };
-    console.log(user);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const user = { username };
 
-    apiService.createUser(user)
+    apiService
+      .createUser(user)
       .then((response) => console.log(response))
       .catch((err) => console.log(err.message))
-      .finally(() => this.setState({ username: "" }));
+      .finally(resetForm);
   };
 
-  render() {
-    return (
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <div className="card my-4">
-            <div className="card-header">Create User</div>
-            <div className="card-body">
-              <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.onChangeUsername}
-                    className="form-control"
-                  />
-                </div>
-                <button className="btn btn-primary btn-block">Save</button>
-              </form>
-            </div>
+  return (
+    <div className="row">
+      <div className="col-md-6 offset-md-3">
+        <div className="card my-4">
+          <div className="card-header">Create User</div>
+          <div className="card-body">
+            <form onSubmit={onSubmit}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="username"
+                  value={username}
+                  onChange={onChangeUsername}
+                  className="form-control"
+                />
+              </div>
+              <button className="btn btn-primary btn-block">Save</button>
+            </form>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default CreateUser;

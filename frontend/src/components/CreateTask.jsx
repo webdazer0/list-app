@@ -1,108 +1,103 @@
-import React, { Component } from "react";
-import { apiService } from "../services/api.service";
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { apiService } from '../services/api.service';
 
-class CreateTask extends Component {
-  state = {
-    username: "",
-    description: "",
-    duration: 0,
-    users: [],
-  };
+export default function CreateTask() {
+  const [users, setUsers] = useState([]);
+  const [username, setUsername] = useState('');
+  const [description, setDescription] = useState('');
+  const [duration, setDuration] = useState(null);
 
-  goToHomePage() {
-    this.props.history.replace("/");
-  }
+  const history = useHistory();
 
-  componentDidMount() {
-    apiService.getUsers().then((res) => {
-      if (res.length > 0) {
-        this.setState({
-          users: res.map((user) => user.username),
-          username: res[0].username,
-        });
+  const goToHomePage = () => history.replace('/');
+
+  useEffect(() => {
+    apiService.getUsers().then((data) => {
+      if (data.length > 0) {
+        setUsers(data.map((user) => user.username));
+        setUsername(data[0]);
       }
     });
-  }
+  }, []);
 
-  onSelectUser = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
+  const onSelectUser = (event) => {
+    const { value } = event.target;
+    setUsername(value);
   };
 
-  onUpdateField = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
+  const onUpdateDescription = (event) => {
+    const { value } = event.target;
+    setDescription(value);
   };
 
-  onSubmit = (e) => {
+  const onUpdateDuration = (event) => {
+    const { value } = event.target;
+    setDuration(value);
+  };
+
+  const onSubmit = (e) => {
     e.preventDefault();
     const task = {
-      username: this.state.username,
-      description: this.state.description,
-      duration: this.state.duration,
+      username,
+      description,
+      duration,
     };
 
-    this.onSaveTask(task);
+    onSaveTask(task);
   };
 
-  onSaveTask(task) {
-    apiService.createTask(task)
-      .then((res) => console.log(res.data))
+  const onSaveTask = (task) => {
+    apiService
+      .createTask(task)
+      .then((response) => console.log(response))
       .catch((err) => console.log(err.message))
-      .finally(() => this.goToHomePage());
-  }
+      .finally(goToHomePage);
+  };
 
-  render() {
-    return (
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <div className="card my-4">
-            <div className="card-header">Create Task</div>
-            <div className="card-body">
-              <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <select
-                    name="username"
-                    onChange={this.onSelectUser}
-                    className="form-control"
-                  >
-                    {this.state.users.map((user) => {
-                      return (
-                        <option key={user} value={user}>
-                          {user}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <textarea
-                    type="text"
-                    name="description"
-                    onChange={this.onUpdateField}
-                    className="form-control"
-                  ></textarea>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="number"
-                    name="duration"
-                    onChange={this.onUpdateField}
-                    className="form-control"
-                  />
-                </div>
-                <button className="btn btn-primary btn-block">Save</button>
-              </form>
-            </div>
+  return (
+    <div className="row">
+      <div className="col-md-6 offset-md-3">
+        <div className="card my-4">
+          <div className="card-header">Create Task</div>
+          <div className="card-body">
+            <form onSubmit={onSubmit}>
+              <div className="form-group">
+                <select
+                  name="username"
+                  onChange={onSelectUser}
+                  className="form-control"
+                >
+                  {users.map((user) => {
+                    return (
+                      <option key={user} value={user}>
+                        {user}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className="form-group">
+                <textarea
+                  type="text"
+                  name="description"
+                  onChange={onUpdateDescription}
+                  className="form-control"
+                ></textarea>
+              </div>
+              <div className="form-group">
+                <input
+                  type="number"
+                  name="duration"
+                  onChange={onUpdateDuration}
+                  className="form-control"
+                />
+              </div>
+              <button className="btn btn-primary btn-block">Save</button>
+            </form>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default CreateTask;

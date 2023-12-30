@@ -1,42 +1,38 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { apiService } from "../services/api.service";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { apiService } from '../services/api.service';
 
-class TaskList extends Component {
-  state = {
-    data: [],
+export default function TaskList() {
+  const [tasks, setTasks] = useState([]);
+
+  const getAllTasks = () => {
+    apiService
+      .getTasks()
+      .then((response) => setTasks(response))
+      .catch((err) => console.log(err.message));
   };
 
-  getAllTasks() {
-    apiService.getTasks()
-      .then((response) => this.setState({ data: response }))
-      .catch((err) => console.log(err.message));
-  }
-
-  componentDidMount() {
-    this.getAllTasks();
-  }
-
-  deleteTask = (id) => {
-    apiService.deleteTaskById(id)
+  const deleteTask = (id) => {
+    apiService
+      .deleteTaskById(id)
       .then((response) => console.log(response))
       .catch((err) => console.log(err.message))
-      .finally(() => this.getAllTasks());
+      .finally(() => getAllTasks());
   };
 
-  render() {
-    return (
-      <div className="container">
-        <h1>Task List</h1>
-        <div className="row">
-          <ItemTaskList items={this.state.data} onDelete={this.deleteTask} />
-        </div>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    getAllTasks();
+  }, []);
 
-export default TaskList;
+  return (
+    <div className="container">
+      <h1>Task List</h1>
+      <div className="row">
+        <ItemTaskList items={tasks} onDelete={deleteTask} />
+      </div>
+    </div>
+  );
+}
 
 // COMPONENTS
 
@@ -51,7 +47,7 @@ function ItemTask({ task, onDelete }) {
     <div className="col-md-4">
       <div className="card">
         <div className="card-header d-flex justify-content-between">
-          {task.username}{" "}
+          {task.username}{' '}
           <span className="badge badge-pill badge-success">
             {task.duration}
           </span>
@@ -60,7 +56,7 @@ function ItemTask({ task, onDelete }) {
           <p>{task.description}</p>
         </div>
         <div className="card-footer">
-          <Link to={"/edit/" + task._id} className="btn btn-success mr-2">
+          <Link to={'/edit/' + task._id} className="btn btn-success mr-2">
             Edit
           </Link>
           <Link
