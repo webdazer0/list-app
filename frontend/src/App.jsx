@@ -7,6 +7,7 @@ import CreateUser from './components/CreateUser';
 import EditTask from './components/EditTask';
 import NavBar from './components/Navbar';
 import TaskList from './components/TaskList';
+import UserList from './components/UserList';
 
 function App() {
   return (
@@ -17,8 +18,9 @@ function App() {
           <Switch>
             <Route exact path="/" component={TaskList} />
             <Route path="/edit/:id" component={EditTask} />
-            <Route exact path="/create" component={CreateTask} />
-            <Route exact path="/user" component={CreateUser} />
+            <Route exact path="/task/create" component={CreateTask} />
+            <Route exact path="/user" component={UserList} />
+            <Route exact path="/user/create" component={CreateUser} />
           </Switch>
         </div>
       </Router>
