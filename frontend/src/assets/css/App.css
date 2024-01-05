@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .App-logo {
@@ -35,4 +35,35 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.avatar, .avatar-lg {
+  display: inline-flex;
+  justify-content: center;
+    align-items: center;
+  width: 38px;
+  height:  38px;
+  border-radius: 50%;
+  font-weight: 500;
+}
+
+label {
+  text-transform: capitalize;
+}
+
+.avatar-lg {
+  width: 48px;
+  height:  48px;
+}
+
+.avatar::before, .avatar-lg::before {
+  content: attr(data-name);
+
+}
+
+.row-gap {
+  row-gap: 2rem;
+}
+.custom-wrap {
+  text-wrap:balance;
 }
