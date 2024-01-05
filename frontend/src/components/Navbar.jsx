@@ -22,13 +22,13 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/create">
-                Add Task
+              <Link className="nav-link" to="/">
+                Tasks
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/user">
-                Add User
+                Users
               </Link>
             </li>
           </ul>
