@@ -4,7 +4,16 @@ import { FormWrapper } from './FormWrapper';
 export const TextAreaField = (props) => {
   return (
     <FormWrapper>
-      <textarea type="text" {...props} className="form-control"></textarea>
+      <label className="w-100">
+        {props.name}
+
+        <textarea
+          type="text"
+          {...props}
+          className="form-control"
+          rows="3"
+        ></textarea>
+      </label>
     </FormWrapper>
   );
 };

@@ -4,7 +4,10 @@ import { FormWrapper } from './FormWrapper';
 export const NumberField = (props) => {
   return (
     <FormWrapper>
-      <input type="number" {...props} className="form-control" />
+      <label className="w-100">
+        {props.name}
+        <input type="number" {...props} className="form-control" />
+      </label>
     </FormWrapper>
   );
 };

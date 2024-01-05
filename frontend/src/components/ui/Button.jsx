@@ -8,6 +8,6 @@ const btnTypeMap = {
 
 export default function Button({ variant }) {
   const btnVariant = btnTypeMap[variant];
-  const btnStyle = `btn ${btnVariant} btn-block`;
+  const btnStyle = `btn py-2 ${btnVariant} btn-block`;
   return <button className={btnStyle}>Update</button>;
 }

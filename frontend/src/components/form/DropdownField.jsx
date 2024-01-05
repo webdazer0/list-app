@@ -4,13 +4,16 @@ import { FormWrapper } from './FormWrapper';
 export const DropdownField = ({ items, ...props }) => {
   return (
     <FormWrapper>
-      <select {...props} className="form-control">
-        {items.map((item) => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
+      <label className="w-100">
+        Owner
+        <select {...props} className="custom-select">
+          {items.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </label>
     </FormWrapper>
   );
 };
