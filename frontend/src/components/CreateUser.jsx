@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { apiService } from '../services/api.service';
+import Button from './ui/Button';
 
 export default function CreateUser() {
   const [username, setUsername] = useState('');
 
-  const onChangeUsername = (event) => {
-    const { value } = event.target;
-    setUsername(value);
-  };
+  const onChangeUsername = (event) => setUsername(event.target.value);
 
   const resetForm = () => setUsername('');
 
@@ -38,7 +36,7 @@ export default function CreateUser() {
                   className="form-control"
                 />
               </div>
-              <button className="btn btn-primary btn-block">Save</button>
+              <Button variant="primary">Save</Button>
             </form>
           </div>
         </div>

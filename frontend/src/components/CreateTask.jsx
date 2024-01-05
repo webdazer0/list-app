@@ -1,49 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { apiService } from '../services/api.service';
+import { useTask } from '../hooks/useTask';
+import { DropdownField, NumberField, TextAreaField } from './form';
+import useUsers from '../hooks/useUsers';
+import Button from './ui/Button';
 
 export default function CreateTask() {
-  const [users, setUsers] = useState([]);
-  const [username, setUsername] = useState('');
-  const [description, setDescription] = useState('');
-  const [duration, setDuration] = useState(null);
+  const { users } = useUsers();
+  const { task, onChange } = useTask();
 
   const history = useHistory();
 
   const goToHomePage = () => history.replace('/');
 
-  useEffect(() => {
-    apiService.getUsers().then((data) => {
-      if (data.length > 0) {
-        setUsers(data.map((user) => user.username));
-        setUsername(data[0].username);
-      }
-    });
-  }, []);
-
-  const onSelectUser = (event) => {
-    const { value } = event.target;
-    setUsername(value);
-  };
-
-  const onUpdateDescription = (event) => {
-    const { value } = event.target;
-    setDescription(value);
-  };
-
-  const onUpdateDuration = (event) => {
-    const { value } = event.target;
-    setDuration(value);
-  };
-
   const onSubmit = (e) => {
     e.preventDefault();
-    const task = {
-      username,
-      description,
-      duration,
-    };
-
     onSaveTask(task);
   };
 
@@ -62,38 +34,23 @@ export default function CreateTask() {
           <div className="card-header">Create Task</div>
           <div className="card-body">
             <form onSubmit={onSubmit}>
-              <div className="form-group">
-                <select
-                  name="username"
-                  onChange={onSelectUser}
-                  className="form-control"
-                >
-                  {users.map((user) => {
-                    return (
-                      <option key={user} value={user}>
-                        {user}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-              <div className="form-group">
-                <textarea
-                  type="text"
-                  name="description"
-                  onChange={onUpdateDescription}
-                  className="form-control"
-                ></textarea>
-              </div>
-              <div className="form-group">
-                <input
-                  type="number"
-                  name="duration"
-                  onChange={onUpdateDuration}
-                  className="form-control"
-                />
-              </div>
-              <button className="btn btn-primary btn-block">Save</button>
+              <DropdownField
+                name="username"
+                onChange={onChange}
+                value={task.username}
+                items={users}
+              />
+              <TextAreaField
+                name="description"
+                onChange={onChange}
+                value={task.description}
+              />
+              <NumberField
+                name="duration"
+                onChange={onChange}
+                value={task.duration}
+              />
+              <Button variant="primary">Save</Button>
             </form>
           </div>
         </div>
