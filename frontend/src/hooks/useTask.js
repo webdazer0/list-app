@@ -4,16 +4,11 @@ import { apiService } from '../services/api.service';
 const emptyTask = {
   username: '',
   description: '',
-  duration: 0,
+  tags: '',
 };
 
 export const useTask = (id) => {
   const [task, setTask] = useState(emptyTask);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setTask((prev) => ({ ...prev, [name]: value }));
-  };
 
   useEffect(() => {
     if (id) {
@@ -24,8 +19,5 @@ export const useTask = (id) => {
     }
   }, [id]);
 
-  return {
-    task,
-    onChange: handleChange,
-  };
+  return task;
 };
