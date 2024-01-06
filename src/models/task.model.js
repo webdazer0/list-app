@@ -8,6 +8,11 @@ const TaskSchema = new Schema(
   },
   {
     timestamps: true,
+    // versionKey: false,
+    // key hidden in API
+    toJSON: {
+      versionKey: false,
+    },
   }
 );
 
