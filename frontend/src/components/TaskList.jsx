@@ -74,7 +74,7 @@ function ItemTask({ task, onDelete }) {
               <i className="fa fa-ellipsis-h" aria-hidden="true"></i>
             </button>
             <div className="dropdown-menu">
-              <Link to={'/task/edit/' + task._id} className="dropdown-item">
+              <Link to={'/task/' + task._id} className="dropdown-item">
                 <i
                   className="fa fa-pencil text-warning pr-2"
                   aria-hidden="true"
@@ -101,10 +101,14 @@ function ItemTask({ task, onDelete }) {
           <p className="custom-wrap">
             <b>{task.description}</b>
           </p>
-          <span className="badge badge-pill badge-info">{task.duration}</span>
+          {task.tags.map((tag) => (
+            <span key={tag} className="badge badge-pill badge-info">
+              {tag}
+            </span>
+          ))}
         </div>
         <div className="card-body pt-0">
-          {task.duration === 2005 && (
+          {task.tags.includes('Research') && (
             <span className=" alert alert-success py-1 px-2 small">
               Completed
               <i className="fa fa-check  pl-1" aria-hidden="true"></i>
