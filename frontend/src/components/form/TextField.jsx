@@ -5,7 +5,10 @@ import { FormWrapper } from './FormWrapper';
 export const TextField = (props) => {
   return (
     <FormWrapper>
-      <input type="text" {...props} className="form-control" />
+      <label className="w-100">
+        {props.name}
+        <input type="text" {...props} className="form-control" />
+      </label>
     </FormWrapper>
   );
 };
