@@ -6,8 +6,12 @@ const btnTypeMap = {
   warning: 'btn-warning',
 };
 
-export default function Button({ variant }) {
+export default function Button({ variant, onClick, children }) {
   const btnVariant = btnTypeMap[variant];
   const btnStyle = `btn py-2 ${btnVariant} btn-block`;
-  return <button className={btnStyle}>Update</button>;
+  return (
+    <button onClick={onClick} className={btnStyle}>
+      {children}
+    </button>
+  );
 }

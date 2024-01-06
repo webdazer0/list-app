@@ -19,6 +19,7 @@ export default function CreateTask() {
   const { data, register, addPartialData } = useFieldPro(emptyTask);
 
   const goToHomePage = () => history.replace('/');
+  const goBack = () => history.goBack();
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -43,23 +44,32 @@ export default function CreateTask() {
   }, [users, addPartialData]);
 
   return (
-    <div className="row">
-      <div className="col-md-6 offset-md-3">
-        <div className="card my-4">
-          <div className="card-header">Create Task</div>
-          <div className="card-body">
-            <form onSubmit={onSubmit}>
-              <DropdownField
-                {...register('username', required)}
-                items={users}
-              />
-              <TextAreaField {...register('description', required)} />
-              <TextField {...register('tags', required)} />
-              <Button variant="primary">Save</Button>
-            </form>
+    <>
+      <div className="row py-4">
+        <div className="col-md-2">
+          <button className="btn alert-success" onClick={goBack}>
+            <i className="fa fa-arrow-left pr-1" aria-hidden="true"></i>back
+          </button>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <div className="card my-4">
+            <div className="card-header">Create Task</div>
+            <div className="card-body">
+              <form onSubmit={onSubmit}>
+                <DropdownField
+                  {...register('username', required)}
+                  items={users}
+                />
+                <TextAreaField {...register('description', required)} />
+                <TextField {...register('tags', required)} />
+                <Button variant="primary">Save</Button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
