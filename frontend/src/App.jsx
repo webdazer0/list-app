@@ -17,10 +17,13 @@ function App() {
         <div className="container">
           <Switch>
             <Route exact path="/" component={TaskList} />
-            <Route path="/edit/:id" component={EditTask} />
             <Route exact path="/task/create" component={CreateTask} />
+            <Route path="/task/:id" component={EditTask} />
             <Route exact path="/user" component={UserList} />
             <Route exact path="/user/create" component={CreateUser} />
+            <Route path="*">
+              <h1>NOT FOUND</h1>
+            </Route>
           </Switch>
         </div>
       </Router>
