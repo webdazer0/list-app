@@ -3,7 +3,7 @@ import useUsers from '../hooks/useUsers';
 import { Link } from 'react-router-dom';
 
 export default function UserList() {
-  const { users } = useUsers();
+  const users = useUsers();
 
   return (
     <div className="container">

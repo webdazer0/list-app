@@ -11,7 +11,5 @@ export default function useUsers() {
       .then(setUsers);
   }, []);
 
-  return {
-    users,
-  };
+  return users;
 }

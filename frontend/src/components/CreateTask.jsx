@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { apiService } from '../services/api.service';
-import { useTask } from '../hooks/useTask';
 import { DropdownField, NumberField, TextAreaField } from './form';
 import useUsers from '../hooks/useUsers';
 import Button from './ui/Button';
+import { useFieldPro } from '../hooks/useFieldPro';
+
+const emptyTask = {
+  username: '',
+  description: '',
+  duration: 0,
+};
 
 export default function CreateTask() {
-  const { users } = useUsers();
-  const { task, onChange } = useTask();
+  const users = useUsers();
+  const { data, register, addPartialData } = useFieldPro(emptyTask);
 
   const history = useHistory();
 
   const goToHomePage = () => history.replace('/');
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    onSaveTask(task);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    onSaveTask(data);
   };
 
   const onSaveTask = (task) => {
@@ -27,6 +33,13 @@ export default function CreateTask() {
       .finally(goToHomePage);
   };
 
+  useEffect(() => {
+    if (users.length <= 0) return;
+    addPartialData({ username: users[0] });
+  }, [users]);
+
+  const required = { required: true };
+
   return (
     <div className="row">
       <div className="col-md-6 offset-md-3">
@@ -35,21 +48,11 @@ export default function CreateTask() {
           <div className="card-body">
             <form onSubmit={onSubmit}>
               <DropdownField
-                name="username"
-                onChange={onChange}
-                value={task.username}
+                {...register('username', required)}
                 items={users}
               />
-              <TextAreaField
-                name="description"
-                onChange={onChange}
-                value={task.description}
-              />
-              <NumberField
-                name="duration"
-                onChange={onChange}
-                value={task.duration}
-              />
+              <TextAreaField {...register('description', required)} />
+              <NumberField {...register('duration', required)} />
               <Button variant="primary">Save</Button>
             </form>
           </div>
