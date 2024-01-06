@@ -7,6 +7,7 @@ export const DropdownField = ({ items, ...props }) => {
       <label className="w-100">
         Owner
         <select {...props} className="custom-select">
+          <option value="">Seleziona ...</option>
           {items.map((item) => (
             <option key={item} value={item}>
               {item}
