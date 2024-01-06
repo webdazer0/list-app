@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { apiService } from '../services/api.service';
 import Button from './ui/Button';
+import { TextField } from './form';
 
 export default function CreateUser() {
   const [username, setUsername] = useState('');
@@ -27,15 +28,11 @@ export default function CreateUser() {
           <div className="card-header">Create User</div>
           <div className="card-body">
             <form onSubmit={onSubmit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="username"
-                  value={username}
-                  onChange={onChangeUsername}
-                  className="form-control"
-                />
-              </div>
+              <TextField
+                name="username"
+                value={username}
+                onChange={onChangeUsername}
+              />
               <Button variant="primary">Save</Button>
             </form>
           </div>

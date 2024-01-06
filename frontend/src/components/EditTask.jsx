@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { apiService } from '../services/api.service';
-import { DropdownField, NumberField, TextAreaField } from './form';
+import { DropdownField, TextAreaField, TextField } from './form';
 import Button from './ui/Button';
 import { useTask } from '../hooks/useTask';
 import useUsers from '../hooks/useUsers';
@@ -10,7 +10,7 @@ import { useFieldPro } from '../hooks/useFieldPro';
 const emptyTask = {
   username: '',
   description: '',
-  duration: 0,
+  tags: '',
 };
 
 export default function EditTask() {
@@ -18,14 +18,15 @@ export default function EditTask() {
   const { id } = useParams();
 
   const users = useUsers();
-  const { task } = useTask(id);
+  const task = useTask(id);
   const { data, register, addPartialData } = useFieldPro(emptyTask);
 
   const goToHomePage = () => history.replace('/');
 
   const onSubmit = (event) => {
     event.preventDefault();
-    onUpdateTask(data);
+    const tags = data.tags.split(',').map((tag) => tag.trim());
+    onUpdateTask({ ...data, tags });
   };
 
   const onUpdateTask = (task) => {
@@ -37,10 +38,12 @@ export default function EditTask() {
   };
 
   useEffect(() => {
-    console.log('taskx => ', task);
+    console.log('✅ useEffect newTask');
     if (!task) return;
-    addPartialData(task);
-  }, [task]);
+    const newTask = { ...task, tags: task.tags?.join(',') ?? '' };
+    console.log({ newTask });
+    addPartialData(newTask);
+  }, [task, addPartialData]);
 
   return (
     <div className="row">
@@ -51,7 +54,7 @@ export default function EditTask() {
             <form onSubmit={onSubmit}>
               <DropdownField {...register('username')} items={users} />
               <TextAreaField {...register('description')} />
-              <NumberField {...register('duration')} />
+              <TextField {...register('tags')} />
               <div className="pb-4"></div>
               <Button variant="primary">Update</Button>
             </form>

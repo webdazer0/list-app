@@ -62,7 +62,13 @@ function ItemTask({ task, onDelete }) {
     <div className="col-lg-4 col-md-6 col-sm-12">
       <div className="card rounded-lg shadow-sm ">
         <div className="card-header d-flex justify-content-between pr-0">
-          {task.username}
+          <div>
+            {task.tags.map((tag) => (
+              <span key={tag} className="badge badge-pill badge-info">
+                {tag}
+              </span>
+            ))}
+          </div>
           <div className="btn-group">
             <button
               type="button"
@@ -101,20 +107,14 @@ function ItemTask({ task, onDelete }) {
           <p className="custom-wrap">
             <b>{task.description}</b>
           </p>
-          {task.tags.map((tag) => (
-            <span key={tag} className="badge badge-pill badge-info">
-              {tag}
-            </span>
-          ))}
-        </div>
-        <div className="card-body pt-0">
-          {task.tags.includes('Research') && (
+          {task.tags.includes('Landing Page') && (
             <span className=" alert alert-success py-1 px-2 small">
               Completed
               <i className="fa fa-check  pl-1" aria-hidden="true"></i>
             </span>
           )}
         </div>
+
         <div className="card-footer d-flex justify-content-between align-items-center">
           {/* <div>
             <Link to={'/edit/' + task._id} className="btn btn-success mr-2">

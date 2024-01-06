@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { apiService } from '../services/api.service';
-import { DropdownField, NumberField, TextAreaField } from './form';
+import { DropdownField, TextAreaField, TextField } from './form';
 import useUsers from '../hooks/useUsers';
 import Button from './ui/Button';
 import { useFieldPro } from '../hooks/useFieldPro';
@@ -9,20 +9,21 @@ import { useFieldPro } from '../hooks/useFieldPro';
 const emptyTask = {
   username: '',
   description: '',
-  duration: 0,
+  tags: '',
 };
 
 export default function CreateTask() {
+  const history = useHistory();
+
   const users = useUsers();
   const { data, register, addPartialData } = useFieldPro(emptyTask);
-
-  const history = useHistory();
 
   const goToHomePage = () => history.replace('/');
 
   const onSubmit = (event) => {
     event.preventDefault();
-    onSaveTask(data);
+    const tags = data.tags.split(',').map((tag) => tag.trim());
+    onSaveTask({ ...data, tags });
   };
 
   const onSaveTask = (task) => {
@@ -33,12 +34,13 @@ export default function CreateTask() {
       .finally(goToHomePage);
   };
 
+  const required = { required: true };
+
   useEffect(() => {
+    console.log('✅ useEffect CT');
     if (users.length <= 0) return;
     addPartialData({ username: users[0] });
-  }, [users]);
-
-  const required = { required: true };
+  }, [users, addPartialData]);
 
   return (
     <div className="row">
@@ -52,7 +54,7 @@ export default function CreateTask() {
                 items={users}
               />
               <TextAreaField {...register('description', required)} />
-              <NumberField {...register('duration', required)} />
+              <TextField {...register('tags', required)} />
               <Button variant="primary">Save</Button>
             </form>
           </div>
