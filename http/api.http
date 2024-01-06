@@ -27,9 +27,13 @@ content-type: application/json
 {
     "username": "Miguel",
     "description": "Desc. Test",
-    "duration": 2020
+    "tags": ["Research"]
 }
 
 ### 🟢GET TASK BY ID
 GET {{API}}/tasks/658cb744bd7bd77e81e49f32
+content-type: application/json
+
+### 🟢TASK BATCH
+POST {{API}}/tasks/batch
 content-type: application/json
