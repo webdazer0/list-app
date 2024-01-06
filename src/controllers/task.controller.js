@@ -7,13 +7,11 @@ const getAll = (req, res) => {
 };
 
 const create = (req, res) => {
-  const { username, description } = req.body;
-  const duration = Number(req.body.duration);
-  console.log('username => ', username);
+  const { username, description, tags = [] } = req.body;
   const newTask = new Task({
     username,
     description,
-    duration,
+    tags,
   });
 
   newTask
@@ -49,4 +47,16 @@ const updateById = (req, res) => {
     .catch((err) => res.status(400).json({ message: 'Error: ' + err }));
 };
 
-module.exports = { getAll, create, getById, deleteById, updateById };
+const customBatch = async (req, res) => {
+  // custom batch
+  res.status(200).json({ message: 'SUCCESS UPDATE MANY' });
+};
+
+module.exports = {
+  getAll,
+  create,
+  getById,
+  deleteById,
+  updateById,
+  customBatch,
+};
