@@ -5,6 +5,8 @@ const TaskSchema = new Schema(
     username: { type: String, required: true },
     description: { type: String, required: true },
     tags: [{ type: String }],
+    done: { type: Boolean, required: true },
+    date: { type: Date, required: true },
   },
   {
     timestamps: true,
