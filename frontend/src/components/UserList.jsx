@@ -26,7 +26,7 @@ export default function UserList() {
 function ItemList(props) {
   return props.items.map((user, i) => {
     return (
-      <div className="col-4" key={user.trim()}>
+      <div className="col-lg-4 col-md-6" key={user.trim()}>
         <div className="card">
           <div className="card-body">
             <div className="d-flex justify-content-start align-items-center">
