@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiService } from '../services/api.service';
 
-import { format } from 'date-fns';
+import { format, differenceInDays } from 'date-fns';
 
 export default function TaskList() {
   const [tasks, setTasks] = useState([]);
@@ -57,6 +57,17 @@ function ItemTaskList(props) {
 
 function ItemTask({ task, onDelete }) {
   const updatedAt = format(new Date(task.updatedAt), 'dd MMM, yyyy');
+  const dueDate = format(new Date(task.date), 'dd MMM, yyyy');
+  const now = Date.now();
+  const difference = differenceInDays(new Date(task.date), now);
+  const duration = difference < 0 ? 100 : difference < 30 ? 75 : 25;
+  const styleColorMap = {
+    25: 'bg-success',
+    75: 'bg-success',
+    100: 'bg-danger',
+  };
+
+  const styleColor = styleColorMap[duration];
 
   return (
     <div className="col-lg-4 col-md-6 col-sm-12">
@@ -107,7 +118,21 @@ function ItemTask({ task, onDelete }) {
           <p className="custom-wrap">
             <b>{task.description}</b>
           </p>
-          {task.tags.includes('Landing Page') && (
+          <small>
+            <i className="fa fa-clock pr-1 text-info" aria-hidden="true"></i>
+            {dueDate}
+          </small>
+          <div className="progress my-2" style={{ height: '.4rem' }}>
+            <div
+              className={`progress-bar progress-bar-striped ${styleColor}`}
+              role="progressbar"
+              style={{ width: `${duration}%` }}
+              aria-valuenow={duration}
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+          {task.done && (
             <span className=" alert alert-success py-1 px-2 small">
               Completed
               <i className="fa fa-check  pl-1" aria-hidden="true"></i>
@@ -116,22 +141,9 @@ function ItemTask({ task, onDelete }) {
         </div>
 
         <div className="card-footer d-flex justify-content-between align-items-center">
-          {/* <div>
-            <Link to={'/edit/' + task._id} className="btn btn-success mr-2">
-              <i className="fa fa-pencil" aria-hidden="true"></i>
-            </Link>
-            <Link
-              to="/"
-              onClick={() => onDelete(task._id)}
-              className="btn btn-danger"
-            >
-              <i className="fa fa-trash" aria-hidden="true"></i>
-            </Link>
-          </div> */}
           <span className="small">
             Last updated: <b>{updatedAt}</b>
           </span>
-          {/* <span>Last updated: 10 Dec, 2022</span> */}
 
           <span
             className="avatar bg-secondary text-white"
