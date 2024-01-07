@@ -4,8 +4,9 @@ export const useFieldPro = (initialData = {}) => {
   const [data, setData] = useState(initialData);
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = event.target;
+    const fieldValue = type === 'checkbox' ? checked : value;
+    setData((prev) => ({ ...prev, [name]: fieldValue }));
   };
 
   const addPartialData = useCallback((otherData = {}) => {
