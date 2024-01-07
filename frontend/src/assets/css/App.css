@@ -40,9 +40,9 @@
 .avatar, .avatar-lg {
   display: inline-flex;
   justify-content: center;
-    align-items: center;
-  width: 38px;
-  height:  38px;
+  align-items: center;
+  width: 32px;
+  height:  32px;
   border-radius: 50%;
   font-weight: 500;
 }
@@ -50,7 +50,9 @@
 label {
   text-transform: capitalize;
 }
-
+.avatar {
+  font-size: .9rem;
+}
 .avatar-lg {
   width: 48px;
   height:  48px;
@@ -66,4 +68,10 @@ label {
 }
 .custom-wrap {
   text-wrap:balance;
+}
+.nav-link {
+  border-bottom: solid 3px transparent;
+}
+.nav-link.active {
+  border-bottom-color:  green;
 }
